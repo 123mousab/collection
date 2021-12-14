@@ -98,18 +98,18 @@ class RefactoringCollection
         // imperative github score
 //        dd($this->imperativeGithubScore($events));
         $scores = collect($events)->pluck('type')->map(function ($eventType){
-            switch ($eventType){
-                case 'PushEvent':
-                    return 5;
-                case 'CreateEvent':
-                    return 4;
-                case 'IssuesEvent':
-                    return 3;
-                case 'CommitCommentEvent':
-                    return 2;
-                default:
-                    return 1;
+            $scoreTable = [
+                'PushEvent' => 5,
+                'CreateEvent' => 4,
+                'IssuesEvent' => 3,
+                'CommitCommentEvent' => 2,
+                ];
+
+            if (! isset($scoreTable[$eventType])){
+                return 1;
             }
+
+            return $scoreTable[$eventType];
         })->sum();
         dd($scores);
     }
