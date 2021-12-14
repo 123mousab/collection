@@ -85,4 +85,66 @@ class RefactoringCollection
         }
         return $total;
     }
+
+    public function getEvents()
+    {
+        return json_decode(Storage::disk('public')->get('events.json'), true);
+    }
+
+
+    public function githubScore()
+    {
+        $events = $this->getEvents();
+        // imperative github score
+//        dd($this->imperativeGithubScore($events));
+        $scores = collect($events)->pluck('type')->map(function ($eventType){
+            switch ($eventType){
+                case 'PushEvent':
+                    return 5;
+                case 'CreateEvent':
+                    return 4;
+                case 'IssuesEvent':
+                    return 3;
+                case 'CommitCommentEvent':
+                    return 2;
+                default:
+                    return 1;
+            }
+        })->sum();
+        dd($scores);
+    }
+
+    public function imperativeGithubScore($events)
+    {
+        $eventTypes = [];
+        foreach ($events as $event){
+            $eventTypes[] = $event['type'];
+        }
+
+        // Loop over the event types and add up the corresponding scores
+        $score = 0;
+
+        foreach ($eventTypes as $eventType)
+        {
+            switch ($eventType){
+                case 'PushEvent':
+                    $score +=5;
+                    break;
+                case 'CreateEvent':
+                    $score +=4;
+                    break;
+                case 'IssuesEvent':
+                    $score +=3;
+                    break;
+                case 'CommitCommentEvent':
+                    $score +=2;
+                    break;
+                default:
+                    $score +=1;
+                    break;
+            }
+        }
+        return $score;
+    }
+
 }
