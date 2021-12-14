@@ -58,4 +58,31 @@ class RefactoringCollection
 
         return $shiftIds;
     }
+
+    public function binaryToDecimal()
+    {
+        $binary = '100110101'; // total equals 309
+
+        // imperative function binary to decimal
+//        return $this->imperativebinaryToDecimal($binary);
+
+        $total = collect(str_split($binary))->reverse()->values()->map(function ($column, $exponent){
+            return $column * (2 ** $exponent);
+        })->sum();
+
+        return $total;
+    }
+
+    private function imperativebinaryToDecimal($binary)
+    {
+        $total = 0;
+        $exponent = strlen($binary) - 1;
+
+        for ($i = 0; $i < strlen($binary); $i++) {
+            $decimal = $binary[$i] * (2 ** $exponent);
+            $total += $decimal;
+            $exponent--;
+        }
+        return $total;
+    }
 }
