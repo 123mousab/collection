@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Storage;
 
 class RefactoringCollection
 {
+    ////////////////////////////////////// #1 //////////////////////////////////////////////
     public function getProducts()
     {
         return json_decode(Storage::disk('public')->get('products.json'), true)['products'];
@@ -41,6 +42,7 @@ class RefactoringCollection
         return $totalCost;
     }
 
+    ////////////////////////////////////// #2 //////////////////////////////////////////////
     public function csvSurgery101()
     {
         $shifts = [
@@ -86,6 +88,7 @@ class RefactoringCollection
         return $total;
     }
 
+    ////////////////////////////////////// #3 //////////////////////////////////////////////
     public function getEvents()
     {
         return json_decode(Storage::disk('public')->get('events.json'), true);
@@ -144,5 +147,7 @@ class RefactoringCollection
         }
         return $score;
     }
+
+    ////////////////////////////////////// #4 //////////////////////////////////////////////
 
 }

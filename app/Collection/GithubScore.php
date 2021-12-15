@@ -7,25 +7,18 @@ use Illuminate\Support\Facades\Storage;
 class GithubScore
 {
 
-    private $events;
-
-    public function __construct($events)
-    {
-        $this->events = $events;
-    }
-
     public static function getEvents()
     {
         return json_decode(Storage::disk('public')->get('events.json'), true);
     }
 
 
-    public  function score()
+    public static function score()
     {
-        $events = new GithubScore(static::getEvents());
+        $events = static::getEvents();
         // imperative github score
 //        dd($this->imperativeGithubScore($events));
-        $scores = collect($this->events)->pluck('type')->map(function ($eventType){
+        $scores = collect($events)->pluck('type')->map(function ($eventType){
             return static::lookup_event_score($eventType);
         })->sum();
         dd($scores);
