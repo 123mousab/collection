@@ -213,4 +213,28 @@ class RefactoringCollection
 
         return $deltas;
     }
+
+    public function hamming_distance()
+    {
+        // 1 1 1 1 1 1
+        $strandA = 'ACCGCCABCCCDA';
+        $strandB = 'ACCDVGABCAADF';
+
+//       return $this->imperativeHammingDistance($strandA, $strandB);
+
+        return collect(str_split($strandA))->zip(str_split($strandB))->map(function ($strandAAndStrandB){
+            list($a, $b) = $strandAAndStrandB;
+            return $a == $b ? 0 : 1;
+        })->sum();
+    }
+
+    private function imperativeHammingDistance($strandA, $strandB)
+    {
+        $distance = 0;
+        for ($i=0; $i < strlen($strandA); $i++)
+        {
+            $distance += $strandA[$i] === $strandB[$i] ? 0 : 1;
+        }
+        return $distance;
+    }
 }
