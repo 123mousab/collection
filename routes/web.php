@@ -12,3 +12,4 @@ Route::get('/csv_surgery_101', [\App\Collection\RefactoringCollection::class, 'c
 Route::get('/binary_to_decimal', [\App\Collection\RefactoringCollection::class, 'binaryToDecimal']);
 Route::get('/github_score', [\App\Collection\GithubScore::class, 'score']);
 Route::get('/build_comment', [\App\Collection\RefactoringCollection::class, 'buildComment']);
+Route::get('/compare_revenue', [\App\Collection\RefactoringCollection::class, 'compareRevenue']);
