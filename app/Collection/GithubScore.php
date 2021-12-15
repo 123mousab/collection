@@ -18,7 +18,7 @@ class GithubScore
         $events = static::getEvents();
         // imperative github score
 //        dd($this->imperativeGithubScore($events));
-        $scores = collect($events)->pluck('type')->map(function ($eventType){
+        $scores = collect($events)->pluck('type')->map(function ($eventType) {
             return static::lookup_event_score($eventType);
         })->sum();
         dd($scores);
@@ -33,33 +33,33 @@ class GithubScore
             'CommitCommentEvent' => 2,
         ])->get($eventType, 1);
     }
+
     public function imperativeGithubScore($events)
     {
         $eventTypes = [];
-        foreach ($events as $event){
+        foreach ($events as $event) {
             $eventTypes[] = $event['type'];
         }
 
         // Loop over the event types and add up the corresponding scores
         $score = 0;
 
-        foreach ($eventTypes as $eventType)
-        {
-            switch ($eventType){
+        foreach ($eventTypes as $eventType) {
+            switch ($eventType) {
                 case 'PushEvent':
-                    $score +=5;
+                    $score += 5;
                     break;
                 case 'CreateEvent':
-                    $score +=4;
+                    $score += 4;
                     break;
                 case 'IssuesEvent':
-                    $score +=3;
+                    $score += 3;
                     break;
                 case 'CommitCommentEvent':
-                    $score +=2;
+                    $score += 2;
                     break;
                 default:
-                    $score +=1;
+                    $score += 1;
                     break;
             }
         }

@@ -149,5 +149,16 @@ class RefactoringCollection
     }
 
     ////////////////////////////////////// #4 //////////////////////////////////////////////
+    public function buildComment()
+    {
+        $message = [
+            'Opening brace must be the last content on the line',
+            'Closing brace must be on a line by itself',
+            'Each PHP statement must be on a line by itself'
+        ];
 
+        return collect($message)->map(function ($message){
+            return "- {$message}";
+        })->implode('\n');
+    }
 }
