@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
@@ -14,7 +15,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        Collection::macro('toAssoc',function (){
+            return $this->reduce(function ($assoc, $keyAndValue){
+                list($key, $value) = $keyAndValue;
+                $assoc[$key] = $value;
+                return $assoc;
+            }, new static);
+        });
     }
 
     /**

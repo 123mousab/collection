@@ -2,6 +2,7 @@
 
 namespace App\Collection;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 
 class RefactoringCollection
@@ -236,5 +237,40 @@ class RefactoringCollection
             $distance += $strandA[$i] === $strandB[$i] ? 0 : 1;
         }
         return $distance;
+    }
+
+    public function lookupTable()
+    {
+        $employees = [
+            [
+                'name' => 'John',
+                'department' => 'Sales',
+                'email' => 'john@example.com'
+            ],
+            [
+                'name' => 'Jane',
+                'department' => 'Marketing',
+                'email' => 'jane1@example.com'
+            ],
+            [
+                'name' => 'Dave',
+                'department' => 'Marketing',
+                'email' => 'dave@example.com'
+            ],
+        ];
+
+
+       /* $emailLookup = collect($employees)->reduce(function ($emailLookup, $employee){
+            $emailLookup[$employee['email']] = $employee['name'];
+            return $emailLookup;
+        }, []);
+
+        return $emailLookup;*/
+
+         $lookup = collect($employees)->map(function ($employee){
+            return [$employee['email'], $employee['name']];
+        })->toAssoc();
+
+         dd($lookup);
     }
 }

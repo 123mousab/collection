@@ -14,3 +14,4 @@ Route::get('/github_score', [\App\Collection\GithubScore::class, 'score']);
 Route::get('/build_comment', [\App\Collection\RefactoringCollection::class, 'buildComment']);
 Route::get('/compare_revenue', [\App\Collection\RefactoringCollection::class, 'compareRevenue']);
 Route::get('/hamming_distance', [\App\Collection\RefactoringCollection::class, 'hamming_distance']);
+Route::get('/lookup_table', [\App\Collection\RefactoringCollection::class, 'lookupTable']);
