@@ -22,6 +22,13 @@ class AppServiceProvider extends ServiceProvider
                 return $assoc;
             }, new static);
         });
+
+        Collection::macro('transpose',function (){
+            $items = array_map(function (...$items){
+                return $items;
+            }, ...$this->values());
+            return new static($items);
+        });
     }
 
     /**

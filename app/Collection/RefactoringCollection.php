@@ -273,4 +273,25 @@ class RefactoringCollection
 
          dd($lookup);
     }
+
+    public function transposeForm()
+    {
+        /*$before = [
+            [1, 2, 3],
+            [4, 5, 6],
+            [7, 8, 9]
+        ];
+
+        return collect($before)->transpose()->all();*/
+        $requestData = collect(request('contacts'))->only('names','emails','occupations');
+        $contacts = $requestData->transpose()->map(function ($contactData){
+            return new Contact([
+                'name' => $contactData[0],
+                'email' => $contactData[1],
+                'job' => $contactData[2],
+            ]);
+        });
+
+        return $contacts;
+    }
 }
