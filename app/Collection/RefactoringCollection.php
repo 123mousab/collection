@@ -56,6 +56,7 @@ class RefactoringCollection
         ];
 
         $shiftIds = collect($shifts)->map(function ($shift){
+//            return last(explode('_', $shift));
             return collect(explode('_', $shift))->last();
         });
 
@@ -104,7 +105,6 @@ class RefactoringCollection
         $scores = collect($events)->pluck('type')->map(function ($eventType){
             return $this->lookup_event_score($eventType);
         })->sum();
-        dd($scores);
     }
 
     public function lookup_event_score($eventType)
@@ -283,7 +283,7 @@ class RefactoringCollection
         ];
 
         return collect($before)->transpose()->all();*/
-        $requestData = collect(request('contacts'))->only('names','emails','occupations');
+        $requestData = collect(request('contacts'))->only('names','emails','occupations')->transpose();
         $contacts = $requestData->transpose()->map(function ($contactData){
             return new Contact([
                 'name' => $contactData[0],
@@ -293,5 +293,10 @@ class RefactoringCollection
         });
 
         return $contacts;
+    }
+
+    public function rankingCompetition()
+    {
+
     }
 }

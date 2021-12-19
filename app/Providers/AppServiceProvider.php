@@ -23,11 +23,12 @@ class AppServiceProvider extends ServiceProvider
             }, new static);
         });
 
+
         Collection::macro('transpose',function (){
-            $items = array_map(function (...$items){
-                return $items;
+            $list = array_map(function (...$list){
+                return $list;
             }, ...$this->values());
-            return new static($items);
+            return new static($list);
         });
     }
 
