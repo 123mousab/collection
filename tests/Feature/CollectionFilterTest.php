@@ -8,6 +8,19 @@ use Tests\TestCase;
 
 class CollectionFilterTest extends TestCase
 {
+    private function filter($items, $callback)
+    {
+        $result = [];
+
+        foreach ($items as $item) {
+            if ($callback($item)) {
+                $result[] = $item;
+            }
+        }
+
+        return $result;
+    }
+
     /**
      * @test
      */
@@ -110,18 +123,5 @@ class CollectionFilterTest extends TestCase
             ['name' => 'London', 'population' => 366150],
             ['name' => 'Cambridge', 'population' => 120375],
         ], $bigCities);
-    }
-
-    private function filter($items, $callback)
-    {
-        $result = [];
-
-        foreach ($items as $item) {
-            if ($callback($item)) {
-                $result[] = $item;
-            }
-        }
-
-        return $result;
     }
 }
