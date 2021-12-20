@@ -30,6 +30,10 @@ class AppServiceProvider extends ServiceProvider
             }, ...$this->values());
             return new static($list);
         });
+
+        Collection::macro('pipeMousab', function ($callback){
+            return $callback($this);
+        });
     }
 
     /**

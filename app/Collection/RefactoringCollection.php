@@ -297,6 +297,69 @@ class RefactoringCollection
 
     public function rankingCompetition()
     {
+        $scores = collect([
+            ['score' => 76, 'team' => 'A'],
+            ['score' => 62, 'team' => 'B'],
+            ['score' => 82, 'team' => 'C'],
+            ['score' => 86, 'team' => 'D'],
+            ['score' => 91, 'team' => 'E'],
+            ['score' => 67, 'team' => 'F'],
+            ['score' => 67, 'team' => 'G'],
+            ['score' => 82, 'team' => 'H'],
+        ]);
 
+       /* $rankedScores = $this->assign_initial_ranking($scores);
+        return $this->adjust_rankings_for_ties($rankedScores);*/
+
+        return $scores->pipeMousab(function ($scores){
+            return $this->assign_initial_ranking($scores);
+        })->pipeMousab(function ($rankedScores){
+            return $this->adjust_rankings_for_ties($rankedScores);
+        });
+
+/*
+        $scores = $scores->sortByDesc('score')
+            ->zip(range(1, $scores->count()))
+            ->map(function ($scoreAndRank){
+            list($score, $rank) = $scoreAndRank;
+            return array_merge($score, [
+                'rank' => $rank
+            ]);
+        })->groupBy('score')
+        ->flatMap(function ($tiedScores){
+            $minRank = $tiedScores->pluck('rank')->min();
+            return $this->apply_min_rank($tiedScores);
+        })->sortBy('rank');
+
+        dd($scores);*/
+
+    }
+
+    private function assign_initial_ranking($scores){
+        return $scores->sortByDesc('score')
+            ->zip(range(1, $scores->count()))
+            ->map(function ($scoreAndRank){
+                list($score, $rank) = $scoreAndRank;
+                return array_merge($score, [
+                    'rank' => $rank
+                ]);
+            });
+    }
+
+    private function adjust_rankings_for_ties($scores)
+    {
+        return $scores->groupBy('score')
+            ->flatMap(function ($tiedScores){
+            return $this->apply_min_rank($tiedScores);
+        })->sortBy('rank');
+    }
+
+    private function apply_min_rank($tiedScores){
+        $minRank = $tiedScores->pluck('rank')->min();
+        return $tiedScores->map(function ($rankedScore) use ($minRank){
+            return array_merge($rankedScore, [
+                'rank' => $minRank
+            ]);
+        });
     }
 }
