@@ -66,6 +66,52 @@ class CollectionFilterTest extends TestCase
             , $products->values()->all());
     }
 
+    public function test_get_products_in_stock()
+    {
+        $products = [
+            ['product' => 'Banana', 'stock_quantity' => 12],
+            ['product' => 'Milk', 'stock_quantity' => 0],
+            ['product' => 'Cream', 'stock_quantity' => 34],
+            ['product' => 'Sugar', 'stock_quantity' => 0],
+            ['product' => 'Apple', 'stock_quantity' => 22],
+            ['product' => 'Bread', 'stock_quantity' => 11],
+            ['product' => 'Coffee', 'stock_quantity' => 0],
+        ];
+
+        $inStock = $this->filter($products, function ($product){
+            return $product['stock_quantity'] != 0;
+        });
+
+        $this->assertEquals([
+            ['product' => 'Banana', 'stock_quantity' => 12],
+            ['product' => 'Cream', 'stock_quantity' => 34],
+            ['product' => 'Apple', 'stock_quantity' => 22],
+            ['product' => 'Bread', 'stock_quantity' => 11],
+        ], $inStock);
+    }
+
+    public function test_get_cities_with_more_than_120_000_people()
+    {
+        $cities = [
+            ['name' => 'Kitchener', 'population' => 204688],
+            ['name' => 'London', 'population' => 366150],
+            ['name' => 'Woodstock', 'population' => 37754],
+            ['name' => 'Cambridge', 'population' => 120375],
+            ['name' => 'Milton', 'population' => 84362],
+            ['name' => 'Guelph', 'population' => 114940],
+        ];
+
+        $bigCities = $this->filter($cities, function ($city){
+            return $city['population'] > 120000;
+        });
+
+        $this->assertEquals([
+            ['name' => 'Kitchener', 'population' => 204688],
+            ['name' => 'London', 'population' => 366150],
+            ['name' => 'Cambridge', 'population' => 120375],
+        ], $bigCities);
+    }
+
     private function filter($items, $callback)
     {
         $result = [];
