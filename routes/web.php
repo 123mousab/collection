@@ -16,3 +16,8 @@ Route::get('/compare_revenue', [\App\Collection\RefactoringCollection::class, 'c
 Route::get('/hamming_distance', [\App\Collection\RefactoringCollection::class, 'hamming_distance']);
 Route::get('/lookup_table', [\App\Collection\RefactoringCollection::class, 'lookupTable']);
 Route::get('/ranking_competition', [\App\Collection\RefactoringCollection::class, 'rankingCompetition']);
+
+/**
+ * Object Oriented
+ */
+Route::get('/objects', [\App\ObjectOriented\Lessons::class, 'exec1']);
